@@ -1,8 +1,19 @@
+"use client";
+
+import { useEffect } from "react";
+import { supabase } from "../lib/supabase";
+import { useRouter } from "next/navigation";
+
 export default function Home() {
-  return (
-    <main>
-      <h1>Onur Bal SaaS Platformu</h1>
-      <p>Next.js altyapısı kuruldu 🚀</p>
-    </main>
-  )
+  const router = useRouter();
+
+  useEffect(() => {
+    (async () => {
+      const { data } = await supabase.auth.getUser();
+      if (data?.user) router.replace("/dashboard");
+      else router.replace("/login");
+    })();
+  }, [router]);
+
+  return <p>Yönlendiriliyor...</p>;
 }
