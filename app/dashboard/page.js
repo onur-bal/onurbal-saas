@@ -7,6 +7,9 @@ import { useRouter } from "next/navigation";
 export default function DashboardPage() {
   const router = useRouter();
 
+  const [monthlyIncome, setMonthlyIncome] = useState(0);
+const [monthlyExpense, setMonthlyExpense] = useState(0);
+
   const [email, setEmail] = useState("");
   const [userId, setUserId] = useState(null);
 
@@ -31,7 +34,31 @@ export default function DashboardPage() {
       setUserId(data.user.id);
 
       await fetchTransactions(data.user.id);
+      fetchMonthly(data.user.id);
       setLoading(false);
+
+      async function fetchMonthly(uid) {
+  const start = new Date();
+  start.setDate(1);
+  start.setHours(0,0,0,0);
+
+  const { data } = await supabase
+    .from("transactions")
+    .select("*")
+    .eq("user_id", uid)
+    .gte("created_at", start.toISOString());
+
+  let income = 0;
+  let expense = 0;
+
+  data?.forEach((t) => {
+    if (t.type === "income") income += Number(t.amount);
+    else expense += Number(t.amount);
+  });
+
+  setMonthlyIncome(income);
+  setMonthlyExpense(expense);
+}
 
       const { data: listener } = supabase.auth.onAuthStateChange((_event, session) => {
         if (!session) router.replace("/login");
@@ -84,6 +111,9 @@ export default function DashboardPage() {
   }
 
   const total = useMemo(() => {
+    <h3>Bu Ay Gelir: {monthlyIncome} ₺</h3>
+<h3>Bu Ay Gider: {monthlyExpense} ₺</h3>
+<h3>Net: {monthlyIncome - monthlyExpense} ₺</h3>
     return transactions.reduce((sum, t) => {
       const a = Number(t.amount) || 0;
       return t.type === "income" ? sum + a : sum - a;
