@@ -3,6 +3,11 @@ export const metadata = {
   description: "Blog + SaaS platformu",
   manifest: "/manifest.webmanifest",
   themeColor: "#ffffff",
+  appleWebApp: {
+  capable: true,
+  title: "Onur Bal",
+  statusBarStyle: "default",
+},
   icons: {
     icon: [
       { url: "/icons/icon-192.png", sizes: "192x192", type: "image/png" },
