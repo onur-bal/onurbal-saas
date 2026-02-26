@@ -111,9 +111,7 @@ const [monthlyExpense, setMonthlyExpense] = useState(0);
   }
 
   const total = useMemo(() => {
-    <h3>Bu Ay Gelir: {monthlyIncome} ₺</h3>
-<h3>Bu Ay Gider: {monthlyExpense} ₺</h3>
-<h3>Net: {monthlyIncome - monthlyExpense} ₺</h3>
+    
     return transactions.reduce((sum, t) => {
       const a = Number(t.amount) || 0;
       return t.type === "income" ? sum + a : sum - a;
@@ -133,6 +131,9 @@ const [monthlyExpense, setMonthlyExpense] = useState(0);
       <p>Giriş yapan kullanıcı: <b>{email}</b></p>
 
       <h2>Toplam Bakiye: {total} ₺</h2>
+  <h3>Bu Ay Gelir: {monthlyIncome} ₺</h3>
+<h3>Bu Ay Gider: {monthlyExpense} ₺</h3>
+<h3>Net: {monthlyIncome - monthlyExpense} ₺</h3>
 
       <form onSubmit={addTransaction} style={{ display: "grid", gap: 10, marginTop: 16 }}>
         <input
