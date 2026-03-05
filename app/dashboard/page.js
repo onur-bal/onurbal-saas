@@ -103,7 +103,7 @@ const [monthlyExpense, setMonthlyExpense] = useState(0);
     if (!userId) return;
     const n = Number(amount);
     if (!Number.isFinite(n) || n <= 0) {
-      setMsg("Tutar 0'dan büyük olmalı.");
+      setMsg("Tutar 0dan büyük olmalı.");
       return;
     }
 
