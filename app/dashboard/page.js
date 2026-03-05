@@ -108,7 +108,11 @@ const [monthlyExpense, setMonthlyExpense] = useState(0);
     }
 
     const { error } = await supabase.from("transactions").insert([
-      { user_id: userId, amount: n, type, note }
+      { user_id: userId,
+     amount: n,
+     type,
+     note,
+     category }
     ]);
 
     if (error) {
@@ -118,6 +122,7 @@ const [monthlyExpense, setMonthlyExpense] = useState(0);
 
     setAmount("");
     setNote("");
+    setCategory("general");
     await fetchTransactions(userId);
   }
 
@@ -146,36 +151,48 @@ const [monthlyExpense, setMonthlyExpense] = useState(0);
 <h3>Bu Ay Gider: {monthlyExpense} ₺</h3>
 <h3>Net: {monthlyIncome - monthlyExpense} ₺</h3>
 
-      <form onSubmit={addTransaction} style={{ display: "grid", gap: 10, marginTop: 16 }}>
-        <input
-          type="number"
-          step="0.01"
-          placeholder="Tutar"
-          value={amount}
-          onChange={(e) => setAmount(e.target.value)}
-          required
-          style={{ padding: 10 }}
-        />
+    <form onSubmit={addTransaction} style={{ display: "grid", gap: 10, marginTop: 16 }}>
+  <input
+    type="number"
+    step="0.01"
+    placeholder="Tutar"
+    value={amount}
+    onChange={(e) => setAmount(e.target.value)}
+    required
+    style={{ padding: 10 }}
+  />
 
-        <select value={type} onChange={(e) => setType(e.target.value)} style={{ padding: 10 }}>
-          <option value="income">Gelir</option>
-          <option value="expense">Gider</option>
-        </select>
+  <select value={type} onChange={(e) => setType(e.target.value)} style={{ padding: 10 }}>
+    <option value="income">Gelir</option>
+    <option value="expense">Gider</option>
+  </select>
 
-        <input
-          type="text"
-          placeholder="Açıklama (opsiyonel)"
-          value={note}
-          onChange={(e) => setNote(e.target.value)}
-          style={{ padding: 10 }}
-        />
+  <select
+    value={category}
+    onChange={(e) => setCategory(e.target.value)}
+    style={{ padding: 10 }}
+  >
+    <option value="general">Genel</option>
+    <option value="salary">Maaş</option>
+    <option value="rent">Kira</option>
+    <option value="market">Market</option>
+    <option value="fuel">Yakıt</option>
+    <option value="bills">Faturalar</option>
+    <option value="other">Diğer</option>
+  </select>
 
-        <button type="submit" style={{ padding: 12 }}>
-          Ekle
-        </button>
+  <input
+    type="text"
+    placeholder="Açıklama (opsiyonel)"
+    value={note}
+    onChange={(e) => setNote(e.target.value)}
+    style={{ padding: 10 }}
+  />
 
-        {msg ? <p style={{ margin: 0 }}>{msg}</p> : null}
-      </form>
+  <button type="submit" style={{ padding: 12 }}>
+    Ekle
+  </button>
+</form>
 
       <div style={{ marginTop: 12 }}>
         <button onClick={logout} style={{ padding: 10 }}>
