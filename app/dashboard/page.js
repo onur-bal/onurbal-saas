@@ -15,7 +15,7 @@ export default function DashboardPage() {
 
   const [amount, setAmount] = useState("");
   const [type, setType] = useState("income");
-  const [category, setCategory] = useState("general");
+  const [category, setCategory] = useState("general-gider");
   const [note, setNote] = useState("");
 
   const [transactions, setTransactions] = useState([]);
@@ -113,7 +113,7 @@ export default function DashboardPage() {
 
     setAmount("");
     setNote("");
-    setCategory("general");
+    setCategory("general-gider");
 
     await fetchTransactions(userId);
     // aylık özet güncellensin
