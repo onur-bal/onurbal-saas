@@ -141,7 +141,23 @@ const [monthlyExpense, setMonthlyExpense] = useState(0);
 
   if (loading) return <p>Yükleniyor...</p>;
 
+  const byCategory = transactions.reduce((acc, t) => {
+  const key = t.category || "general";
+  const a = Number(t.amount) || 0;
+  const signed = t.type === "income" ? a : -a;
+  acc[key] = (acc[key] || 0) + signed;
+  return acc;
+}, {});
+
   return (
+    <h3 style={{ marginTop: 24 }}>Kategori Özeti (Net)</h3>
+<ul>
+  {Object.entries(byCategory).map(([k, v]) => (
+    <li key={k}>
+      {k}: {v} ₺
+    </li>
+  ))}
+</ul>
     <main style={{ maxWidth: 780 }}>
       <h1>Dashboard</h1>
       <p>Giriş yapan kullanıcı: <b>{email}</b></p>
@@ -204,7 +220,7 @@ const [monthlyExpense, setMonthlyExpense] = useState(0);
       <ul>
         {transactions.map((t) => (
           <li key={t.id}>
-            {t.type === "income" ? "+" : "-"} {t.amount} ₺ {t.note ? `- ${t.note}` : ""}
+            {t.type === "income" ? "+" : "-"} {t.amount} ₺ {t.category ? `(${t.category})` : ""} {t.note ? `- ${t.note}` : ""}
           </li>
         ))}
       </ul>
