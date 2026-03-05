@@ -16,9 +16,20 @@ const [monthlyExpense, setMonthlyExpense] = useState(0);
   const [amount, setAmount] = useState("");
   const [type, setType] = useState("income");
   const [note, setNote] = useState("");
+  const [category, setCategory] = useState("general");
   const [transactions, setTransactions] = useState([]);
   const [loading, setLoading] = useState(true);
   const [msg, setMsg] = useState("");
+
+  const categories = [
+  { value: "general", label: "Genel" },
+  { value: "salary", label: "Maaş" },
+  { value: "rent", label: "Kira" },
+  { value: "market", label: "Market" },
+  { value: "fuel", label: "Yakıt" },
+  { value: "bills", label: "Faturalar" },
+  { value: "other", label: "Diğer" },
+];
 
   useEffect(() => {
     let unsub = null;
